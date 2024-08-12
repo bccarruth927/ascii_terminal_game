@@ -147,6 +147,37 @@ class Player:
         else:
             self.wisdom += 2
 
+class Ogre:
+    # Attributes for the Ogre Class
+    def __init__(self, name):
+        self.name = name
+        self.health = 35
+
+    def __repr__(self):
+        # Printing the Ogre monster will provide a description including name and health stat
+        return 'The {name} has a total health of {health}. It is strongest against Mages but struggles fighting Archers and Warriors.'.format(name=self.name.title(), health=self.health)
+
+class Goblin:
+    # Attributes for the Goblin Class
+    def __init__(self, name):
+        self.name = name
+        self.health = 20
+
+    def __repr__(self):
+        # Printing the Goblin monster will provide a description including name and health stat
+        return 'The {name} has a total health of {health}. It is strongest against Warriors but struggles fighting Archers and Mages.'.format(name=self.name.title(), health=self.health)
+
+class Spectre:
+    # Attributes for the Spectre Class
+    def __init__(self, name):
+        self.name = name
+        self.health = 35
+
+    def __repr__(self):
+        # Printing the Spectre monster will provide a description including name and health stat
+        return 'The {name} has a total health of {health}. It is strongest against Archers but struggles fighting Mages and Warriors.'.format(name=self.name.title(), health=self.health)
+
+
 # Test whether Player class initializes correctly
 player_character = Player('The Mighty Brenden', 26, 'human', 'warrior')
 print(player_character)
