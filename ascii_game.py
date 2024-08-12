@@ -1,3 +1,6 @@
+from util_funcs import greeting
+from validation_funcs import validate_player_age, validate_player_race, validate_combat_class
+
 class Player:
     # To create the Player character user input is collected to generate a name, age and desired fantasy class,
     # Class and fantasy race determines the characters primary stats upon initialization,
@@ -47,7 +50,7 @@ class Player:
         # Printing the Player character will provide a description including their name and stats
         # Modify combat_class string from lower() to title() for the description
         self.combat_class = self.combat_class.title()
-        description = 'Greetings {name}! You are a {race} from the Realm of Python! You are a {combat_class} class and your current health is at {health}. Your strength is {strength}, your dexterity is {dexterity} and your wisdom is {wisdom}.'.format(name=self.name, race=self.race, combat_class=self.combat_class, health=self.health, strength=self.strength, dexterity=self.dexterity, wisdom=self.wisdom)
+        description = 'Greetings {name}! You are a {race} from the Realm of Python! You are a {combat_class} class and your current health is at {health}. Your strength is {strength}, your dexterity is {dexterity} and your wisdom is {wisdom}.'.format(name=self.name, race=self.race.title(), combat_class=self.combat_class.title(), health=self.health, strength=self.strength, dexterity=self.dexterity, wisdom=self.wisdom)
 
         # Control flow to adjust description based on whether the Player character is dead or not
         if self.is_dead:
@@ -177,7 +180,21 @@ class Spectre:
         # Printing the Spectre monster will provide a description including name and health stat
         return 'The {name} has a total health of {health}. It is strongest against Archers but struggles fighting Mages and Warriors.'.format(name=self.name.title(), health=self.health)
 
+# Greet the player and give a brief description to game and game play
+greeting()
+
+
+# Collect user input for the name, age, fantasy race and class of their character
+player_name = input('What is the name of your player?\n> ')
+
+player_age = validate_player_age()
+
+player_race = validate_player_race()
+
+player_class = validate_combat_class()
+
+# Instantiate the Player character
+player_character = Player(player_name, player_age, player_race, player_class)
 
 # Test whether Player class initializes correctly
-player_character = Player('The Mighty Brenden', 26, 'human', 'warrior')
 print(player_character)
