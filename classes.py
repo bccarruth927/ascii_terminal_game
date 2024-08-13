@@ -113,18 +113,13 @@ class Player:
             self.wisdom += 3
 
 
-class Ogre:
-    # The Ogre is the strongest of the common monsters with the highest strength and health stats
-    # Attributes of the Ogre class
+# The Monster class is the parent class for all monster based subclasses
+class Monster:
+    # Attributes shared by all monsters
     def __init__(self):
-        self.name = 'ogre'
-        self.health = 35
-        self.strength = 15
-        self.dexterity = 10
-        self.wisdom = 7
         self.is_dead = False
 
-
+    # Methods shared by all monsters
     def monster_dies(self):
         # If the Ogre loses all its health then the is_dead attribute is switched to true
         self.is_dead = True
@@ -170,7 +165,19 @@ class Ogre:
         self.dexterity += 2
         self.wisdom += 2
 
-class Goblin:
+
+class Ogre(Monster):
+    # The Ogre is the strongest of the common monsters with the highest strength and health stats
+    # Attributes of the Ogre class
+    def __init__(self):
+        self.name = 'ogre'
+        self.health = 35
+        self.strength = 15
+        self.dexterity = 10
+        self.wisdom = 7
+
+
+class Goblin(Monster):
     # The Goblin is the most nimble of the common monsters with the highest dexterity stat but lowest health
     # Attributes of the Goblin class
     def __init__(self):
@@ -179,56 +186,9 @@ class Goblin:
         self.strength = 7
         self.dexterity = 15
         self.wisdom = 10
-        self.is_dead = False
-    
-
-    def monster_dies(self):
-        # If the Goblin loses all its health then the is_dead attribute is switched to true
-        self.is_dead = True
-
-        # A negative value could potentially result in a bug where the monster continues to live despite having 0 health
-        # Set health to 0 to prevent a bug possibility
-        if self.health != 0:
-            self.health = 0
 
 
-    def attack_player(self, player):
-        # Attack patterns are randomly generated
-        # Depending on the randomly generated attack, attack strength depends on relevant stat compared to monster's
-        # Generate random attack pattern
-        random_attack = random.randint(1,3)
-
-        if random_attack == 1:
-            if self.strength > player.strength:
-                player.health -= self.strength / 1.25
-                print('The {monster}\'s strength is greater than {player}. The attack does full strength damage.'.format(monster=self.name.title(), player=player.name))
-            else:
-                player.health -= self.strength / 2
-                print('{player}\'s strength is greater than {monster}\'s. The attack has reduced strength damage.'.format(monster=self.name.title(), player=player.name))
-        elif random_attack == 2:
-            if self.dexterity > player.dexterity:
-                player.health -= self.dexterity / 1.25
-                print('The {monster} appears to be more nimble than the {player}. The attack lands for full dexterity damage.'.format(monster=self.name.title(), player=player.name))
-            else:
-                player.health -= self.dexterity / 2
-                print('{player} proves to be more dexterous than the {monster}. The attack has reduced dexterity damage.'.format(monster=self.name.title(), player=player.name))
-        else:
-            if self.wisdom > player.wisdom:
-                player.health -= self.wisdom / 1.25
-                print('Despite being a {monster}, it\'s wisdom is higher than {player}. The attack does full wisdom damage.'.format(monster=self.name.title(), player=player.name))
-            else:
-                player.health -= self.wisdom / 2
-                print('The mental fortitude of the {monster} is weaker than {player}. Your attack has reduced wisdom damage.'.format(monster=self.name.title(), player=player.name))
-
-    
-    def raise_stats(self):
-        # To make the monsters competitive, raise stats after each defeat
-        self.strength += 2
-        self.dexterity += 2
-        self.wisdom += 2
-
-
-class Spectre:
+class Spectre(Monster):
     # The Spectre is an ethereal monster with the highest wisdom stat but the lowest strength stat
     # Attributes of the Spectre classS
     def __init__(self):
@@ -237,50 +197,3 @@ class Spectre:
         self.strength = 7
         self.dexterity = 10
         self.wisdom = 15
-        self.is_dead = False
-
-
-    def monster_dies(self):
-        # If the Spectre loses all its health then the is_dead attribute is switched to true
-        self.is_dead = True
-
-        # A negative value could potentially result in a bug where the monster continues to live despite having 0 health
-        # Set health to 0 to prevent a bug possibility
-        if self.health != 0:
-            self.health = 0
-
-
-    def attack_player(self, player):
-        # Attack patterns are randomly generated
-        # Depending on the randomly generated attack, attack strength depends on relevant stat compared to monster's
-        # Generate random attack pattern
-        random_attack = random.randint(1,3)
-
-        if random_attack == 1:
-            if self.strength > player.strength:
-                player.health -= self.strength / 1.25
-                print('The {monster}\'s strength is greater than {player}. The attack does full strength damage.'.format(monster=self.name.title(), player=player.name))
-            else:
-                player.health -= self.strength / 2
-                print('{player}\'s strength is greater than {monster}\'s. The attack has reduced strength damage.'.format(monster=self.name.title(), player=player.name))
-        elif random_attack == 2:
-            if self.dexterity > player.dexterity:
-                player.health -= self.dexterity / 1.25
-                print('The {monster} appears to be more nimble than the {player}. The attack lands for full dexterity damage.'.format(monster=self.name.title(), player=player.name))
-            else:
-                player.health -= self.dexterity / 2
-                print('{player} proves to be more dexterous than the {monster}. The attack has reduced dexterity damage.'.format(monster=self.name.title(), player=player.name))
-        else:
-            if self.wisdom > player.wisdom:
-                player.health -= self.wisdom / 1.25
-                print('Despite being a {monster}, it\'s wisdom is higher than {player}. The attack does full wisdom damage.'.format(monster=self.name.title(), player=player.name))
-            else:
-                player.health -= self.wisdom / 2
-                print('The mental fortitude of the {monster} is weaker than {player}. Your attack has reduced wisdom damage.'.format(monster=self.name.title(), player=player.name))
-
-
-    def raise_stats(self):
-        # To make the monsters competitive, raise stats after each defeat
-        self.strength += 2
-        self.dexterity += 2
-        self.wisdom += 2
