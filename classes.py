@@ -45,6 +45,7 @@ class Player:
             self.dexterity += 5
             self.wisdom += 10
     
+
     def __repr__(self):
         # Printing the Player character will provide a description including their name and stats
         # Modify combat_class string from lower() to title() for the description
@@ -59,6 +60,7 @@ class Player:
         
         return description
     
+
     def player_dies(self, monster):
         # If the player loses all of their health then the is_dead attribute is switched to false
         self.is_dead = True
@@ -70,10 +72,12 @@ class Player:
         
         print('Oh no! {name} died fighting {monster}!'.format(name=self.name, monster=monster.name))
 
+
     def gain_health(self):
         # If the player successfully defeats a monster, increase their health by 2
         self.health += 2
     
+
     def attack_monster(self, monster):
         # Attack patterns are randomly generated
         # Depending on the randomly generated attack, attack strength depends on relevant stat compared to monster's
@@ -107,9 +111,15 @@ class Player:
         # Boosted stat depends on the monster fought
         if monster.name == 'ogre':
             self.strength += 3
+            self.dexterity += 1
+            self.wisdom += 1
         elif monster.name == 'goblin':
+            self.strength += 1
             self.dexterity += 3
+            self.wisdom += 1
         else:
+            self.strength += 1
+            self.dexterity += 1
             self.wisdom += 3
 
 
@@ -172,9 +182,9 @@ class Ogre(Monster):
     def __init__(self):
         self.name = 'ogre'
         self.health = 35
-        self.strength = 15
-        self.dexterity = 10
-        self.wisdom = 7
+        self.strength = 10
+        self.dexterity = 7
+        self.wisdom = 5
 
 
 class Goblin(Monster):
@@ -183,9 +193,9 @@ class Goblin(Monster):
     def __init__(self):
         self.name = 'goblin'
         self.health = 20
-        self.strength = 7
-        self.dexterity = 15
-        self.wisdom = 10
+        self.strength = 5
+        self.dexterity = 10
+        self.wisdom = 7
 
 
 class Spectre(Monster):
@@ -194,6 +204,45 @@ class Spectre(Monster):
     def __init__(self):
         self.name = 'spectre'
         self.health = 25
-        self.strength = 7
-        self.dexterity = 10
-        self.wisdom = 15
+        self.strength = 5
+        self.dexterity = 7
+        self.wisdom = 10
+
+
+class BossMonster(Monster):
+    # Attributes for the boss monster
+    def __init__(self):
+        self.name = 'Emberling the Giant Python'
+        self.health = 100
+        self.strength = 25
+        self.dexterity = 25
+        self.wisdom = 25
+
+    
+    def attack_player(self, player):
+        # Attack patterns are randomly generated
+        # Depending on the randomly generated attack, attack strength depends on relevant stat compared to monster's
+        # Generate random attack pattern
+        random_attack = random.randint(1,3)
+
+        if random_attack == 1:
+            if self.strength > player.strength:
+                player.health -= self.strength / 1.25
+                print('{monster}\'s strength is greater than {player}. The attack does full strength damage.'.format(monster=self.name.title(), player=player.name))
+            else:
+                player.health -= self.strength / 2
+                print('{player}\'s strength is greater than {monster}\'s. The attack has reduced strength damage.'.format(monster=self.name.title(), player=player.name))
+        elif random_attack == 2:
+            if self.dexterity > player.dexterity:
+                player.health -= self.dexterity / 1.25
+                print('{monster} appears to be more dexterous than {player}. The attack lands for full dexterity damage.'.format(monster=self.name.title(), player=player.name))
+            else:
+                player.health -= self.dexterity / 2
+                print('{player} proves to be more dexterous than {monster}. The attack has reduced dexterity damage.'.format(monster=self.name.title(), player=player.name))
+        else:
+            if self.wisdom > player.wisdom:
+                player.health -= self.wisdom / 1.25
+                print('{monster} has been alive for centuries, it\'s wisdom is higher than {player}. The attack does full wisdom damage.'.format(monster=self.name.title(), player=player.name))
+            else:
+                player.health -= self.wisdom / 2
+                print('The mental fortitude of {monster} is weaker than {player}. Your attack has reduced wisdom damage.'.format(monster=self.name.title(), player=player.name))

@@ -1,26 +1,25 @@
 from util_funcs import greeting
 from validation_funcs import validate_player_age, validate_player_race, validate_combat_class
-from classes import Player, Ogre, Goblin, Spectre
+from classes import Player, Ogre, Goblin, Spectre, BossMonster
 import random
 
 
 # Greet the player and give a brief description to game and game play
-# greeting()
+greeting()
 
 
 # Collect user input for the name, age, fantasy race and class of their character
-# player_name = input('What is the name of your player?\n> ')
+player_name = input('What is the name of your player?\n> ')
 
-# player_age = validate_player_age()
+player_age = validate_player_age()
 
-# player_race = validate_player_race()
+player_race = validate_player_race()
 
-# player_class = validate_combat_class()
+player_class = validate_combat_class()
 
 # Instantiate the Player character
-# player_character = Player(player_name, player_age, player_race, player_class)
+player_character = Player(player_name, player_age, player_race, player_class)
 
-player_character = Player('Brenden the Almighty', 26, 'human', 'warrior')
 
 # Instantiate monster characters
 # Append monster characters to list of monsters
@@ -78,7 +77,7 @@ while player_character.health > 0 and ready_to_fight == 'y':
         print('You\'re health and stats have increased! You now have {health} points of health. You\'re strength stat is {strength}, dexterity is {dexterity} and wisdom is {wisdom}.\n'.format(health=player_character.health, strength=player_character.strength, dexterity=player_character.dexterity, wisdom=player_character.wisdom))
     
     # Determine if the player wants to continue fighting monsters
-    ready_to_fight = input('\nAre you ready to keep fighting some monsters? Y/N\n> ')
+    ready_to_fight = input('\nAre you ready to keep fighting some monsters? Or are you ready to face the boss? "Y" to keep fighting, "N" to face the boss.\n> ')
     ready_to_fight = ready_to_fight.lower()
 
     while ready_to_fight != 'y' and ready_to_fight != 'n':
@@ -87,3 +86,40 @@ while player_character.health > 0 and ready_to_fight == 'y':
 
     if ready_to_fight == 'n':
         break
+
+
+# Ensure that the player is alive before starting the boss fight
+if player_character.is_dead == False:
+    # Instantiate the boss monster
+    boss_monster = BossMonster()
+
+
+    # Collect user input to start the boss fight
+    fight_the_boss = input('\nNo turning back now. The lair of {monster} lays before you. All that\'s left is to defeat it. If you\'re ready lets hear a "Leroy Jenkins!"!\n> '.format(monster=boss_monster.name.title()))
+    # If the user enters any other input switch automatically to the requirement to start the boss fight
+    fight_the_boss = 'leroy jenkins!'
+
+
+    # Start the boss fight
+    # Boss fight will continue until either the boss monster of the player dies
+    # If the player beats the boss the player wins!
+    while player_character.health > 0 and fight_the_boss == 'leroy jenkins!':
+        # While both the player and the boss continue to exchange attacks until one dies
+        # Attack pattern is randomly decided by a 50/50 chance
+        while player_character.health > 0 and boss_monster.health > 0:
+            attack_pattern = random.randint(0, 1)
+
+            if attack_pattern == 1:
+                player_character.attack_monster(boss_monster)
+            else:
+                boss_monster.attack_player(player_character)
+
+        # Determine whether the player or the monster survived the encounter, if they died break the loop
+        # If the player survives, reset the player health to be equal to their health before the monster encounter
+        # Increase the players health and relevant stat based on the type of monster fought
+        if player_character.health <= 0:
+            player_character.player_dies(boss_monster)
+            break
+        else:
+            boss_monster.monster_dies()
+            print('\nCongratulations! You defeated the {monster}! You have saved the Realm of Python!'.format(monster=boss_monster.name.title()))
