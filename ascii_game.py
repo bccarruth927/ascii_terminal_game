@@ -123,3 +123,4 @@ if player_character.is_dead == False:
         else:
             boss_monster.monster_dies()
             print('\nCongratulations! You defeated the {monster}! You have saved the Realm of Python!'.format(monster=boss_monster.name.title()))
+            break
